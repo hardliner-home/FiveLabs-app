@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { LogBox } from 'react-native'
+import { NativeBaseProvider } from 'native-base'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+
+// src
+import RootNavigation from './navigation/RootNavigation'
+import AuthContextProvider from './components/providers/AuthContextProvider'
+import PushNotificationsContextProvider from './components/providers/PushNotificationsContextProvider'
+
+LogBox.ignoreLogs(['Require cycle:', 'Require cycles', 'Can\'t perform'])
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <AuthContextProvider>
+      <PushNotificationsContextProvider>
+        <SafeAreaProvider>
+          <NativeBaseProvider>
+            <BottomSheetModalProvider>
+              <RootNavigation />
+            </BottomSheetModalProvider>
+          </NativeBaseProvider>
+        </SafeAreaProvider>
+      </PushNotificationsContextProvider>
+    </AuthContextProvider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
